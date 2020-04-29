@@ -20,7 +20,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font enterFont = new Font("Arial", Font.PLAIN, 36);
 	Font spaceFont = new Font("Arial", Font.PLAIN, 30);
 	Timer frameDraw;
-
+	DodgerMan dodger = new DodgerMan(250, 700, 50, 50);
+	ObjectManager object = new ObjectManager(dodger);
+	Timer boxSpawn;
+	
 	GamePanel() {
 		frameDraw = new Timer(1000 / 60, this);
 		frameDraw.start();
@@ -42,7 +45,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void updateGameState() {
-
+		object.update();
+		if (dodger.isActive == false) {
+			currentState = END;
+		}
 	}
 
 	void updateEndState() {
@@ -66,6 +72,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void drawGameState(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, BoxDodge.WIDTH, BoxDodge.HEIGHT);
+		object.draw(g);
 	}
 
 	void drawEndState(Graphics g) {
@@ -73,8 +80,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, BoxDodge.WIDTH, BoxDodge.HEIGHT);
 		g.setFont(enterFont);
 		g.setColor(Color.DARK_GRAY);
-		g.drawString("Press ENTER to try again", 60, 450);
+		g.drawString("Press ENTER to try again", 40, 450);
+		g.setFont(titleFont);
+		g.setColor(Color.DARK_GRAY);
+		g.drawString("GAME OVER", 25, 150);
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -85,37 +96,67 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (currentState == END) {
 			updateEndState();
 		}
-		System.out.println("action");
+		repaint();
 	}
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == MENU) {
 				currentState = GAME;
-			} else {
-				currentState++;
+				dodger = new DodgerMan(250, 700, 50, 50);
+				object = new ObjectManager(dodger);
+				startGame();
+				return;
+			}
+			if (currentState == GAME) {
+				currentState = END;
+				boxSpawn.stop();
+				return;
+			}
+			if (currentState == END) {
+				currentState = MENU;
+				return;
 			}
 		}
-		if (currentState == GAME) {
-			if (e.getKeyCode() == KeyEvent.VK_UP) {
-				System.out.println("UP");
+		if (e.getKeyCode() == KeyEvent.VK_UP) {
+			if (dodger.y > 0) {
+				dodger.up();
 			}
-			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				System.out.println("DOWN");
+		}
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			if (dodger.x < BoxDodge.WIDTH - dodger.width - 19) {
+				dodger.right();
 			}
-			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-				System.out.println("LEFT");
+		}
+		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			if (dodger.x > 0) {
+				dodger.left();
 			}
-			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				System.out.println("RIGHT");
+		}
+		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			if (dodger.y < BoxDodge.HEIGHT - dodger.height - 30) {
+				dodger.down();
 			}
+		}
+		if (currentState == END) {
+			dodger.isActive = false;
+			DodgerMan dodger = new DodgerMan(250, 700, 50, 50);
+			ObjectManager object = new ObjectManager(dodger);
 		}
 	}
+
+	void startGame() {
+		boxSpawn = new Timer(1000, object);
+		boxSpawn.start();
+	}
+
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub

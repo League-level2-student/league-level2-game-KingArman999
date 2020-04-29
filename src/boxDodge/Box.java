@@ -1,0 +1,26 @@
+package boxDodge;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
+
+public class Box extends GameObject {
+
+	Box(int x, int y, int width, int height) {
+		super(x, y, width, height);
+		speed = 1;
+	}
+
+	void update() {
+		y += speed;
+		super.update();
+	}
+
+	void draw(Graphics g) {
+		g.setColor(Color.YELLOW);
+		g.fillRect(100, 20, width, height);
+
+	}
+}

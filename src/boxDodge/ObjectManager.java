@@ -1,0 +1,66 @@
+package boxDodge;
+
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Random;
+
+public class ObjectManager implements ActionListener {
+	DodgerMan man;
+	ArrayList<Box> boxes = new ArrayList<Box>();
+	Random rand = new Random();
+	int columns = 5;
+	int colwidth = BoxDodge.WIDTH / 5;
+
+	ObjectManager(DodgerMan man) {
+		this.man = man;
+	}
+
+	void addBox() {
+		int col = rand.nextInt(5);
+		boxes.add(new Box(col * colwidth, 0, 50, 50));
+	}
+
+	void update() {
+		for (Box box : boxes) {
+			if (box.y > BoxDodge.HEIGHT) {
+				box.isActive = false;
+			}
+			box.update();
+			checkCollision();
+			purgeObjects();
+		}
+	}
+
+	void draw(Graphics g) {
+		man.draw(g);
+		for (int i = 0; i < boxes.size(); i++) {
+			boxes.get(i).draw(g);
+		}
+	}
+
+	void purgeObjects() {
+		for (int i = 0; i < boxes.size(); i++) {
+			if (boxes.get(i).isActive == false) {
+				boxes.remove(i);
+			}
+		}
+	}
+
+	void checkCollision() {
+		for(Box box : boxes) {
+			if (man.collisionBox.intersects(box.collisionBox)) {
+				man.isActive = false;
+				break;
+			}
+
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		addBox();
+	}
+}
