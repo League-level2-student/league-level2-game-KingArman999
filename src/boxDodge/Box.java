@@ -2,9 +2,6 @@ package boxDodge;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-
-import javax.imageio.ImageIO;
 
 public class Box extends GameObject {
 
@@ -20,7 +17,6 @@ public class Box extends GameObject {
 
 	void draw(Graphics g) {
 		g.setColor(Color.YELLOW);
-		g.fillRect(100, 20, width, height);
-
+		g.fillRect(x, y, width, height);
 	}
 }

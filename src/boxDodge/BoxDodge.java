@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 public class BoxDodge {
 	JFrame frame;
 	GamePanel game;
-	public static final int WIDTH = 500;
+	public static final int WIDTH = 600;
 	public static final int HEIGHT = 800;
 
 	BoxDodge() {
@@ -14,6 +14,7 @@ public class BoxDodge {
 		game = new GamePanel();
 		frame.addKeyListener(game);
 	}
+
 	void setup() {
 		frame.add(game);
 		frame.setSize(WIDTH, HEIGHT);

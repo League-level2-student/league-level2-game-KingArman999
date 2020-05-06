@@ -15,10 +15,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	final int MENU = 0;
 	final int GAME = 1;
 	final int END = 2;
+	final int INFORMATION = 3;
 	int currentState = MENU;
 	Font titleFont = new Font("Arial", Font.BOLD, 70);
 	Font enterFont = new Font("Arial", Font.PLAIN, 36);
-	Font spaceFont = new Font("Arial", Font.PLAIN, 30);
+	Font iFont = new Font("Arial", Font.PLAIN, 30);
+	Font informationFont = new Font("Arial", Font.PLAIN, 29);
+	Font informationBigFont = new Font("Arial", Font.BOLD, 70);
+	Font scoreFont = new Font("Arial", Font.PLAIN, 20);
+	Font powerUpFont = new Font("Arial", Font.PLAIN, 10);
 	Timer frameDraw;
 	DodgerMan dodger = new DodgerMan(250, 700, 50, 50);
 	ObjectManager object = new ObjectManager(dodger);
@@ -37,13 +42,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			drawGameState(g);
 		} else if (currentState == END) {
 			drawEndState(g);
+		} else if (currentState == INFORMATION) {
+			drawInformationState(g);
 		}
 	}
 
 	void updateMenuState() {
 
 	}
-
+	void updateInformationState() {
+		
+	}
 	void updateGameState() {
 		object.update();
 		if (dodger.isActive == false) {
@@ -60,19 +69,37 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, BoxDodge.WIDTH, BoxDodge.HEIGHT);
 		g.setFont(titleFont);
 		g.setColor(Color.darkGray);
-		g.drawString("BOX DODGE", 25, 120);
+		g.drawString("BOX DODGE", 75, 120);
 		g.setFont(enterFont);
 		g.setColor(Color.DARK_GRAY);
-		g.drawString("Press ENTER to start", 70, 450);
-		g.setFont(spaceFont);
+		g.drawString("Press ENTER to start", 120, 450);
+		g.setFont(iFont);
 		g.setColor(Color.DARK_GRAY);
-		g.drawString("Press SPACE for insructions", 50, 600);
+		g.drawString("Press I for insructions", 150, 600);
 	}
-
+	void drawInformationState(Graphics g) {
+		g.setColor(Color.cyan);
+		g.fillRect(0, 0, BoxDodge.WIDTH, BoxDodge.HEIGHT);
+		g.setColor(Color.DARK_GRAY);
+		g.setFont(informationBigFont);
+		g.drawString("INFORMATION", 40 , 100);
+		g.setFont(informationFont);
+		g.drawString("Use the arrow keys to move foward, back,", 30 , 200);
+		g.drawString("left and right. Navigate your dodger through", 30 , 250);
+		g.drawString("the falling boxes. If you are ever in a pinch,", 30 , 300);
+		g.drawString("press SPACE to clear all the boxes off the", 30 , 350);
+		g.drawString("screen. Use this power wisely though, as", 30 , 400);
+		g.drawString("you only have 3 uses.", 30 , 450);
+		g.setFont(enterFont);
+		g.drawString("Press ENTER to go back", 90, 600);
+		g.drawString("to the menu", 185, 650);
+	}
 	void drawGameState(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, BoxDodge.WIDTH, BoxDodge.HEIGHT);
 		object.draw(g);
+		g.setFont(scoreFont);
+		g.drawString("Score: " + object.getScore(), 50, 100);
 	}
 
 	void drawEndState(Graphics g) {
@@ -80,10 +107,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, BoxDodge.WIDTH, BoxDodge.HEIGHT);
 		g.setFont(enterFont);
 		g.setColor(Color.DARK_GRAY);
-		g.drawString("Press ENTER to try again", 40, 450);
+		g.drawString("Press ENTER to try again", 90, 450);
 		g.setFont(titleFont);
 		g.setColor(Color.DARK_GRAY);
-		g.drawString("GAME OVER", 25, 150);
+		g.drawString("GAME OVER", 75, 150);
 	}
 
 	@Override
@@ -95,6 +122,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			updateGameState();
 		} else if (currentState == END) {
 			updateEndState();
+		} else if (currentState == INFORMATION) {
+			updateInformationState();
 		}
 		repaint();
 	}
@@ -115,12 +144,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				startGame();
 				return;
 			}
-			if (currentState == GAME) {
-				currentState = END;
-				boxSpawn.stop();
+
+			if (currentState == END) {
+				currentState = MENU;
 				return;
 			}
-			if (currentState == END) {
+			if (currentState == INFORMATION) {
 				currentState = MENU;
 				return;
 			}
@@ -149,6 +178,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			dodger.isActive = false;
 			DodgerMan dodger = new DodgerMan(250, 700, 50, 50);
 			ObjectManager object = new ObjectManager(dodger);
+		}
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			object.score += object.boxes.size();
+			object.boxes.clear();
+			
+		}
+		if (currentState == MENU) {
+			if (e.getKeyCode() == KeyEvent.VK_I) {
+			currentState = INFORMATION;
+			}
 		}
 	}
 

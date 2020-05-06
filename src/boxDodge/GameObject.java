@@ -12,23 +12,24 @@ public class GameObject {
 	int speed;
 	boolean isActive;
 	Rectangle collisionBox;
+
 	GameObject(int x, int y, int width, int height) {
-		this.x= x;
-		this.y= y;
+		this.x = x;
+		this.y = y;
 		this.width = width;
-		this.height= height;
+		this.height = height;
 		speed = 20;
 		isActive = true;
-		collisionBox = new Rectangle(x,y,width,height); 
+		collisionBox = new Rectangle(x, y, width, height);
 	}
-void draw(Graphics g) {
-	g.setColor(Color.RED);
-	g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
-}
-	void update() {
-		 collisionBox.setBounds(x, y, width, height);	   
-	}
-	
 
+	void draw(Graphics g) {
+		g.setColor(Color.RED);
+		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+	}
+
+	void update() {
+		collisionBox.setBounds(x, y, width, height);
+	}
 
 }

@@ -10,6 +10,7 @@ public class ObjectManager implements ActionListener {
 	DodgerMan man;
 	ArrayList<Box> boxes = new ArrayList<Box>();
 	Random rand = new Random();
+	public int score = 0;
 	int columns = 5;
 	int colwidth = BoxDodge.WIDTH / 5;
 
@@ -19,7 +20,7 @@ public class ObjectManager implements ActionListener {
 
 	void addBox() {
 		int col = rand.nextInt(5);
-		boxes.add(new Box(col * colwidth, 0, 50, 50));
+		boxes.add(new Box(col * colwidth, 0, 100, 50));
 	}
 
 	void update() {
@@ -28,9 +29,10 @@ public class ObjectManager implements ActionListener {
 				box.isActive = false;
 			}
 			box.update();
-			checkCollision();
-			purgeObjects();
 		}
+		man.update();
+		checkCollision();
+		purgeObjects();
 	}
 
 	void draw(Graphics g) {
@@ -44,20 +46,24 @@ public class ObjectManager implements ActionListener {
 		for (int i = 0; i < boxes.size(); i++) {
 			if (boxes.get(i).isActive == false) {
 				boxes.remove(i);
+				score +=1;
 			}
 		}
 	}
 
 	void checkCollision() {
-		for(Box box : boxes) {
+		for (Box box : boxes) {
 			if (man.collisionBox.intersects(box.collisionBox)) {
 				man.isActive = false;
-				break;
 			}
-
 		}
 	}
-
+	public int getScore() {
+		return this.score;
+	}
+	public void setScore(int score1) {
+		this.score = score1;
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

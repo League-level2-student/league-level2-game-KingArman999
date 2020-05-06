@@ -2,9 +2,7 @@ package boxDodge;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
-import javax.imageio.ImageIO;
 
 public class DodgerMan extends GameObject {
 
