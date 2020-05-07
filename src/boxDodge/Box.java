@@ -16,7 +16,7 @@ public class Box extends GameObject {
 	}
 
 	void draw(Graphics g) {
-		g.setColor(Color.YELLOW);
+		g.setColor(Color.RED);
 		g.fillRect(x, y, width, height);
 	}
 }

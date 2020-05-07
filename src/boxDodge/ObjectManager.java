@@ -11,6 +11,7 @@ public class ObjectManager implements ActionListener {
 	ArrayList<Box> boxes = new ArrayList<Box>();
 	Random rand = new Random();
 	public int score = 0;
+	public int power = 3;
 	int columns = 5;
 	int colwidth = BoxDodge.WIDTH / 5;
 
@@ -63,6 +64,12 @@ public class ObjectManager implements ActionListener {
 	}
 	public void setScore(int score1) {
 		this.score = score1;
+	}
+	public int getPower() {
+		return this.power;
+	}
+	public void setPower(int power1) {
+		this.score = power1;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {

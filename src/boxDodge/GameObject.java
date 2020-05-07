@@ -12,7 +12,6 @@ public class GameObject {
 	int speed;
 	boolean isActive;
 	Rectangle collisionBox;
-
 	GameObject(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
