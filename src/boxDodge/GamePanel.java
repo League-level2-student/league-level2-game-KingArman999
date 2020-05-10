@@ -167,6 +167,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			if (dodger.y > 0) {
 				dodger.up();
+				if (object.score>=45) {
+					
+				}
 			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
