@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -25,7 +26,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font informationBigFont = new Font("Arial", Font.BOLD, 70);
 	Font scoreFont = new Font("Arial", Font.PLAIN, 20);
 	Font powerFont = new Font("Arial", Font.PLAIN, 15);
-	Font colorFont = new Font("Arial", Font.PLAIN, 29);
 	Timer frameDraw;
 	DodgerMan dodger = new DodgerMan(250, 700, 50, 50);
 	ObjectManager object = new ObjectManager(dodger);
@@ -79,8 +79,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawString("Press ENTER to start", 120, 400);
 		g.setFont(iFont);
 		g.drawString("Press I for insructions", 150, 550);
-		g.setFont(colorFont);
-		g.drawString("Press C to choose your color", 110, 650);
 	}
 
 	void drawInformationState(Graphics g) {
@@ -167,9 +165,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			if (dodger.y > 0) {
 				dodger.up();
-				if (object.score>=45) {
-					
-				}
 			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -204,16 +199,30 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				currentState = INFORMATION;
 			}
 		}
-		if (e.getKeyCode() == KeyEvent.VK_C) {
-			if (currentState == MENU) {
-				colorChoice = JOptionPane
-						.showInputDialog("Choose a color: Blue, Pink, Orange, Yellow, Green, White, or Gray.");
-			}
+		if (object.score >= 30) {
+			startFasterGame();
+		}
+		if (object.score >= 75) {
+			startFastestGame();
 		}
 	}
 
 	void startGame() {
 		boxSpawn = new Timer(1000, object);
+		boxSpawn.start();
+	}
+
+	void startFasterGame() {
+		boxSpawn.stop();
+		boxSpawn = new Timer(1000, object);
+		Box.boxSpeed = 2;
+		boxSpawn.start();
+	}
+
+	void startFastestGame() {
+		boxSpawn.stop();
+		boxSpawn = new Timer(1000, object);
+		Box.boxSpeed = 1;
 		boxSpawn.start();
 	}
 

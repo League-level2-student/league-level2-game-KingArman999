@@ -23,7 +23,9 @@ public class ObjectManager implements ActionListener {
 		int col = rand.nextInt(5);
 		boxes.add(new Box(col * colwidth, 0, 100, 50));
 	}
-
+	void changeSpeed(int x) {
+		
+	}
 	void update() {
 		for (Box box : boxes) {
 			if (box.y > BoxDodge.HEIGHT) {
