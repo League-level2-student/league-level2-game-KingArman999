@@ -3,6 +3,7 @@ package boxDodge;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -10,12 +11,19 @@ public class DodgerMan extends GameObject {
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
+	public static int dodgerSpeed = 20;
+	Random random = new Random();
 
 	DodgerMan(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		// TODO Auto-generated constructor stub
+		int randImage = random.nextInt(1);
 		if (needImage) {
-			loadImage("Dodgerman.jpg");
+			if (randImage == 0) {
+				loadImage("Peter.png");
+			} else if (randImage == 1) {
+				loadImage("MaskPeter.png");
+			}
 		}
 	}
 
@@ -29,19 +37,19 @@ public class DodgerMan extends GameObject {
 	}
 
 	public void right() {
-		x += speed;
+		x += dodgerSpeed;
 	}
 
 	public void left() {
-		x -= speed;
+		x -= dodgerSpeed;
 	}
 
 	public void up() {
-		y -= speed;
+		y -= dodgerSpeed;
 	}
 
 	public void down() {
-		y += speed;
+		y += dodgerSpeed;
 	}
 
 	void loadImage(String imageFile) {

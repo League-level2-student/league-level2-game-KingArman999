@@ -12,6 +12,7 @@ public class ObjectManager implements ActionListener {
 	Random rand = new Random();
 	public int score = 0;
 	public int power = 3;
+	public String playerName = "New Player";
 	int columns = 5;
 	int colwidth = BoxDodge.WIDTH / 5;
 
@@ -23,9 +24,7 @@ public class ObjectManager implements ActionListener {
 		int col = rand.nextInt(5);
 		boxes.add(new Box(col * colwidth, 0, 100, 50));
 	}
-	void changeSpeed(int x) {
-		
-	}
+
 	void update() {
 		for (Box box : boxes) {
 			if (box.y > BoxDodge.HEIGHT) {
@@ -49,7 +48,7 @@ public class ObjectManager implements ActionListener {
 		for (int i = 0; i < boxes.size(); i++) {
 			if (boxes.get(i).isActive == false) {
 				boxes.remove(i);
-				score +=1;
+				score += 1;
 			}
 		}
 	}
@@ -58,25 +57,30 @@ public class ObjectManager implements ActionListener {
 		for (Box box : boxes) {
 			if (man.collisionBox.intersects(box.collisionBox)) {
 				man.isActive = false;
+				power = 0;
 			}
 		}
 	}
+
 	public int getScore() {
 		return this.score;
 	}
+
 	public void setScore(int score1) {
 		this.score = score1;
 	}
+
 	public int getPower() {
 		return this.power;
 	}
+
 	public void setPower(int power1) {
 		this.score = power1;
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
 		addBox();
 	}
 }
