@@ -106,7 +106,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawString("SCOREBOARD", 100, 150);
 		g.setFont(highScoreFont);
 		for (int i = 0; i < scores.size(); i++) {
-			g.drawString((i + 1) + ". " + players.get(i) + "           " + scores.get(i), 80, 250 + i * 50);
+			String name;
+			if (players.get(i).length() > 8) {
+				name = players.get(i).substring(0, 8);
+			}else if (players.get(i).length() == 0) {
+				name = "_______";
+			}
+			else {
+				name = players.get(i);
+			}
+			g.drawString((i + 1) + ". " + name, 80, 250 + i * 50);
+			g.drawString(String.valueOf(scores.get(i)), (int) (BoxDodge.WIDTH * 0.75), 250 + i * 50);
 			if (i == 4) {
 				break;
 			}
